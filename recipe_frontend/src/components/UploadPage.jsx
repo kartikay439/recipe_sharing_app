@@ -3,6 +3,7 @@ import '../css/uploadPage.css';
 import About from './about.jsx';
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import app from "../utils/firebase.js"
+import { handleFileUpload } from '../utils/uploadFileCloudinary.js';
 
 //getting firebase instance
 const db = getFirestore(app);
@@ -40,12 +41,14 @@ function UploadPage({ selectedCategory,setShowUploadPage }) {
         }
     };
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        const uploadedPhotoUrls = await Promise.all(photos.map((file) => handleFileUpload(file)));
       
         // Form data
         const data = {
-          photos: "https://handletheheat.com/wp-content/uploads/2018/02/BAKERY-STYLE-CHOCOLATE-CHIP-COOKIES-9.jpg",
+          photos: uploadedPhotoUrls,
           recipeName,
           ingredients,
           procedure,
@@ -53,7 +56,8 @@ function UploadPage({ selectedCategory,setShowUploadPage }) {
           nutritionValues,
           tags,
         };
-      
+        
+
         // Check if data is valid
         console.log(data); // Log the object to debug if needed
       
