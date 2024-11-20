@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 
 export const fetchRecipes = async () => {
   try {
-    const recipesCollection = collection(db, "recipe");
+    const recipesCollection = collection(db, "recipes");
     const snapshot = await getDocs(recipesCollection);
 
     // Extract data from each document
@@ -56,7 +56,7 @@ const AllRecipe = ({ homeSearch }) => {
           style={styles.card}
           onClick={() => setSelectedRecipeId(recipe.id)} // Pass ID to RecipeDetail
         >
-          <img src={recipe.photos} alt={recipe.recipeName} style={styles.image} />
+          <img src={recipe.photos[0]} alt={recipe.recipeName} style={styles.image} />
           <h3 style={styles.title}>{recipe.recipeName}</h3>
         </div>
       ))}
