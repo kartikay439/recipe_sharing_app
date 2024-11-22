@@ -12,7 +12,7 @@ function SignUpForm() {
 
   return (
     <>
-      <h1 className='title'>RECIPE</h1>
+      <h1 className='title-auth'>RECIPE</h1>
       <div className="main">
         <div className="right">
           <img className='hn' src={Honey} alt="" />

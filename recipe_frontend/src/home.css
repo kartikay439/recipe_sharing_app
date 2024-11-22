@@ -7,9 +7,9 @@
 
 /* Main Container */
 .home {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Full viewport height */
+  /* display: flex;
+  flex-direction: column; */
+  /* min-height: 100vh; Full viewport height */
   /* background-image: url(./assets/coff.jpg); */
   background-size: cover;
   background-repeat: no-repeat;
@@ -43,11 +43,13 @@
 
 /* Content Area */
 .content {
-  flex: 1; /* Takes up available space between nav and footer */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  /* flex: 1; Takes up available space between nav and footer */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
   align-items: center;
+  /* height: 5px; */
+  border: rgb(212, 15, 15) 15px solid ;
 }
 
 /* Footer (About Component) */

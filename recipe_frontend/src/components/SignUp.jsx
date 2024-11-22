@@ -25,7 +25,7 @@ function SignUpForm() {
 
   return (
   
-      <div className="form-container">
+      <div className="sign-form-container">
         <h2>SIGN UP</h2>
         {errorMessage && <div className="error-message">{errorMessage}</div>} 
         <form onSubmit={handleSubmit}>

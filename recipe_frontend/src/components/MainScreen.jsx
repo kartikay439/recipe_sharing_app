@@ -8,13 +8,14 @@ import UploadPage from "./UploadPage.jsx";
 import { auth } from "../utils/firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
 import "../home.css";
-
+import UserForm from './userForm.jsx'
 function MainScreen() { 
   const [user, setUser] = useState("no usr");
   const [showCategory, setShowCategory] = useState(false);
   const [showUploadPage, setShowUploadPage] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [homeSearch, setHomeSearch] = useState(true);
+  const [userForm,setUserForm] = useState(false);
      
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -33,24 +34,30 @@ function MainScreen() {
     setShowUploadPage(true);
   };
 
+  const heandleUserClick=()=>{
+    setHomeSearch(!homeSearch)
+    setUserForm(!userForm)
+  }
+
   return (
     <div className="main-screen home">
-      <NavBar onPlusClick={handleCategoryClick} />
+      <NavBar onPlusClick={handleCategoryClick} onUserClick={heandleUserClick}/>
 
       <div className="content">
         {showCategory ? (
           <Category clickHandle={categoryHandled} />
         ) : showUploadPage ? (
-          <UploadPage selectedCategory={selectedCategory} setShowUploadPage={setShowUploadPage} />
+          <UploadPage selectedCategory={selectedCategory} setShowUploadPage={setShowUploadPage} user={user}/>
         ) : (
           <>
-            {user ? (
+            {!userForm ? (
               <>
                 {homeSearch ? <HomeSearch /> : <></>}
                 <DataSection homeSearch={setHomeSearch} />
               </>
             ) : (
-              <h1>You are not signed in</h1>
+              <UserForm user={user} formComponent={setUserForm}/>
+              
             )}
           </>
         )}

@@ -4,14 +4,14 @@ import cook from "../assets/cooking.png";
 import profile from "../assets/profile.png";
 import plus from "../assets/plus.png";
 
-function NavBar({ onPlusClick }) {
+function NavBar({ onPlusClick ,onUserClick}) {
     return (
         <div className="nav" style={{backgroundColor:"black", height:"70px"}}>
             <div className="logo">
                 <img src={cook} alt="Cooking" />
             </div>
             <div className="menu">
-                <img src={profile} alt="Profile" />
+                <img onClick={onUserClick} src={profile} alt="Profile" />
                 <img
                     src={plus}
                     alt="Add"
