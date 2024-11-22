@@ -25,7 +25,7 @@ function SignInForm() {
 
   return (
   
-      <div className="sign-form-container">
+      <div className="form-container">
         <h2>SIGN IN</h2>
         {errorMessage && <div className="error-message">{errorMessage}</div>} 
         <form onSubmit={handleSubmit}>

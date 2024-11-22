@@ -16,7 +16,7 @@ function SignUpForm() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       console.log('User created:', user.uid);
-      navigate('/home'); // Redirect after successful sign-up
+      navigate('/Signupdetails'); // Redirect after successful sign-up
     } catch (error) {
       setErrorMessage(error.message);
       console.error('Error signing up:', error);
@@ -25,7 +25,7 @@ function SignUpForm() {
 
   return (
   
-      <div className="sign-form-container">
+      <div className="form-container">
         <h2>SIGN UP</h2>
         {errorMessage && <div className="error-message">{errorMessage}</div>} 
         <form onSubmit={handleSubmit}>

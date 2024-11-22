@@ -7,9 +7,6 @@ import m from '../assets/like.png'
 import updateFieldByDocumentField from "../utils/updateLike"
 
 const db = getFirestore(app);
-
-
-
 export const fetchRecipes = async () => {
   try {
     const recipesCollection = collection(db, "recipes");

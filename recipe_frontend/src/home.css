@@ -7,9 +7,9 @@
 
 /* Main Container */
 .home {
-  /* display: flex;
-  flex-direction: column; */
-  /* min-height: 100vh; Full viewport height */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
   /* background-image: url(./assets/coff.jpg); */
   background-size: cover;
   background-repeat: no-repeat;
@@ -18,8 +18,6 @@
 
 /* Navigation Bar */
 .nav {
-  height: 60px;
-  background-color: rgb(13, 30, 50);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,16 +38,58 @@
 .menu img {
   width: 40px;
 }
+.menu {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  width: 200px;
+  z-index: 10;
+}
+
+.dropdown-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu ul li:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-menu ul li button {
+  all: unset;
+  width: 80%;
+  text-align: left;
+  background: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu ul li button:hover {
+  background-color: #f1f1f1;
+}
+
 
 /* Content Area */
 .content {
-  /* flex: 1; Takes up available space between nav and footer */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: center; */
+  flex: 1; /* Takes up available space between nav and footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  /* height: 5px; */
-  border: rgb(212, 15, 15) 15px solid ;
 }
 
 /* Footer (About Component) */

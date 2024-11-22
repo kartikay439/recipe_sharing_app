@@ -1,0 +1,108 @@
+/* General container styles */
+#SignupDetail-content {
+    margin: 0;
+    padding: 0;
+    background-color: #D9D9D9;
+    font-family: Arial, sans-serif; /* Ensures a modern and clean font */
+}
+
+/* Navigation bar */
+#SignupDetail-content > nav {
+    height: 50px;
+    background-color: rgb(13, 30, 50);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-container {
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#SignupDetail-content .form-container {
+    width: 70%;
+    height: auto;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px 30px;
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.image-upload{
+    width: 100%;
+    text-align: center;
+}
+
+/* Typography and fieldset */
+#SignupDetail-content legend,
+#SignupDetail-content span,
+#SignupDetail-content fieldset {
+    color: rgb(13, 30, 50);
+}
+
+fieldset {
+    font-size: 24px;
+    margin: 40px 0;
+    padding: 20px;
+    border: 1px solid #ddd; /* Clean and subtle border */
+    border-radius: 5px;
+}
+
+fieldset label{
+    font-size: 15px;
+    padding-left: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+#profileImage {
+    display: none; 
+}
+
+.image-preview{
+    text-align: center;
+}
+fieldset .radio-group{
+    display: inline;
+}
+#SignupDetail-content .form-container button{
+    margin: 0 32.5%;
+}
+
+#hidden{
+    display: inline-block;
+    color: white;
+    padding:5px 20px;
+    margin-bottom: 25px;
+    background-color: #34495e;
+    border-radius: 5px;
+}
+
+.hidden{
+    display: none;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-container {
+        width: 90%; /* Reduces width on smaller screens */
+        padding: 15px 20px;
+    }
+
+    fieldset {
+        font-size: 20px;
+    }
+
+    fieldset label {
+        font-size: 14px;
+        padding-left: 10px;
+    }
+
+    .nav-container {
+        font-size: 16px;
+    }
+}

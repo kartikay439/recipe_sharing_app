@@ -11,7 +11,7 @@ const RecipeDetail = ({ id, showDetail, setHomeSearch }) => {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      const docRef = doc(db, "recipes", id);
+      const docRef = doc(db, "recipe", id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {

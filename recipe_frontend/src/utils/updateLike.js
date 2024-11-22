@@ -39,6 +39,3 @@ const updateFieldByDocumentField = async (field, value,fieldToUpdate, newValue) 
 };
 
 export default updateFieldByDocumentField;
-
-// Usage example: Updating the "rating" field of a recipe with a specific "recipeName"
-// updateFieldByDocumentField("recipeName", "Carrot Soup", "rating", 5);
