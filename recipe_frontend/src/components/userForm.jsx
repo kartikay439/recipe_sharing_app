@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import "../css/userForm.css"; // Separate CSS files
+import "../css/userForm.css"; // Separate CSS files
 import uploadToCloudinary from "../utils/uploadToCloudinary";
 import app from "../utils/firebase";
 import { getFirestore, doc, setDoc } from "firebase/firestore";

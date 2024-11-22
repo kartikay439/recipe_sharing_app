@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import app from "../utils/firebase"; // Adjust the path to your Firebase initialization file
 import "../css/allReciipe.css"
 import m from '../assets/like.png'
+import updateFieldByDocumentField from "../utils/updateLike"
 
 const db = getFirestore(app);
+
 
 
 export const fetchRecipes = async () => {
@@ -33,6 +35,12 @@ const AllRecipe = ({ homeSearch }) => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
 
+
+function like(userId){
+  console.log(userId)
+  updateFieldByDocumentField("userId",userId,"like","n")
+}
+
   useEffect(() => {
     const loadRecipes = async () => {
       const data = await fetchRecipes();
@@ -59,12 +67,13 @@ const AllRecipe = ({ homeSearch }) => {
         <div
           key={recipe.id}
           className="card"
-          onClick={() => setSelectedRecipeId(recipe.id)}
-
-        >
-          <img  className="like" src={m} alt="" />
-          <img src={recipe.photos[0]} alt={recipe.recipeName} className="image" ></img>
-          <h3 className="title">{recipe.recipeName}</h3>
+          >
+          <img  className="like" src={m} alt="" onClick={(event) => {
+      event.stopPropagation(); // Prevent event bubbling
+      like(recipe.userId); // Call the like function
+    }}/>
+          <img src={recipe.photos[0]} alt={recipe.recipeName} className="image"  onClick={() => setSelectedRecipeId(recipe.id)}></img>
+          <h3 className="title" onClick={() => setSelectedRecipeId(recipe.id)}>{recipe.recipeName} </h3>
           <hr  className="all-recipe-hr"/>
         </div>
       ))}
