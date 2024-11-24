@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/UploadPage.css";
+import "../css/uploadPage.css";
 import {doc, setDoc } from "firebase/firestore";
 import cloudinaryConfig from "../utils/cloudinaryConfig";
 import { auth, db } from "../utils/firebase";
