@@ -4,13 +4,15 @@ import plus from "../assets/plus.png";
 import { getAuth, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import cb from '../assets/cookbook.png';
+import { useNavigate } from 'react-router-dom';
 
 function NavBar({ onPlusClick , onUserClick , onLogoClick }) {
     const [userImage, setUserImage] = useState(null);
     const [username, setUsername] = useState("");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [user, setUser] = useState(null);
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         // Get the current user and fetch profile details from Firestore
         const auth = getAuth();
@@ -77,10 +79,10 @@ function NavBar({ onPlusClick , onUserClick , onLogoClick }) {
                                             alt="Profile"
                                             style={{ borderRadius: "50%" , display: "inline-block" }}
                                         />
-                                        <span onClick={toggleDropdown} style={{display: "inline-block",position:"relative",bottom:"10px",left:"10px"}}>{username}</span>
+                                        <span style={{display: "inline-block",position:"relative",bottom:"10px",left:"10px"}}>{username}</span>
                                     </li>
-                                    <li>
-                                        <button onClick={handleSignOut}>Sign Out</button>
+                                    <li onClick={() => { handleSignOut(); toggleDropdown();}}>
+                                        <button >Sign Out</button>
                                     </li>
                                 </ul>
                             </div>
@@ -98,7 +100,7 @@ function NavBar({ onPlusClick , onUserClick , onLogoClick }) {
                             <div className="dropdown-menu">
                                 <ul>
                                     <li>
-                                        <button>Sign In</button>
+                                        <button onClick={() => { navigate('/'); toggleDropdown();}}>Sign In</button>
                                     </li>
                                 </ul>
                             </div>

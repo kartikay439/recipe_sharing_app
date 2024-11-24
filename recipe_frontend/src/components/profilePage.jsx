@@ -96,7 +96,7 @@ function profilePage({ userId }) {
             </div>
             <div className="stats">
                 <div>
-                    <h2>{userData.likes || 0}</h2>
+                    <h2>{userData.like || 0}</h2>
                     <p>Likes</p>
                 </div>
                 <div>
