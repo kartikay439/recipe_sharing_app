@@ -18,6 +18,8 @@
 
 /* Navigation Bar */
 .nav {
+  height: 60px;
+  background-color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,17 +28,19 @@
 
 .logo img {
   width: 50px;
+  position: relative;
+  top: .7em;
 }
 
 .menu {
-  margin-right: 25px;
-  width: 90px;
+  width: 150px;
   display: flex;
   justify-content: space-between;
 }
 
 .menu img {
   width: 40px;
+  height: 40px;
 }
 .menu {
   position: relative;
@@ -50,8 +54,9 @@
   border: 1px solid #ccc;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  width: 200px;
+  width: 250px;
   z-index: 10;
+  text-align: center;
 }
 
 .dropdown-menu ul {
@@ -71,7 +76,6 @@
 
 .dropdown-menu ul li button {
   all: unset;
-  width: 80%;
   text-align: left;
   background: none;
   padding: 10px;

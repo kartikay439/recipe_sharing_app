@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import '../css/uploadPage.css';
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import app from "../utils/firebase.js";
-import cloudinaryConfig from '../utils/cloudinaryConfig';
-import { auth, db } from '../utils/firebase';
+import React, { useState } from "react";
+import "../css/UploadPage.css";
+import {doc, setDoc } from "firebase/firestore";
+import cloudinaryConfig from "../utils/cloudinaryConfig";
+import { auth, db } from "../utils/firebase";
+import Su from "../assets/image.png";
 
 // Function to upload a single document to Firestore
 export const uploadSingleDocument = async (collectionName, documentId, data) => {
@@ -15,7 +15,6 @@ export const uploadSingleDocument = async (collectionName, documentId, data) => 
         console.error("Error uploading document:", error);
     }
 };
-
 
 async function uploadToCloudinary(file) {
     const { CLOUDINARY_URL, UPLOAD_PRESET } = cloudinaryConfig;
@@ -43,22 +42,24 @@ async function uploadToCloudinary(file) {
 
 function UploadPage({ selectedCategory, setShowUploadPage, user }) {
     const [photos, setPhotos] = useState([]); // Array of files to upload
-    const [recipeName, setRecipeName] = useState('');
-    const [ingredients, setIngredients] = useState('');
-    const [procedure, setProcedure] = useState('');
-    const [calorieCount, setCalorieCount] = useState('');
-    const [nutritionValues, setNutritionValues] = useState('');
+    const [recipeName, setRecipeName] = useState("");
+    const [ingredients, setIngredients] = useState("");
+    const [procedure, setProcedure] = useState("");
+    const [calorieCount, setCalorieCount] = useState("");
+    const [nutritionValues, setNutritionValues] = useState("");
     const [tags, setTags] = useState([]);
     const [uploadedUrls, setUploadedUrls] = useState([]); // Array of uploaded file URLs
     const [uploading, setUploading] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false); // New state for success message
 
-    // Handle file selection
     const handlePhotoUpload = (event) => {
         const files = Array.from(event.target.files);
-        setPhotos((prevPhotos) => [...prevPhotos, ...files.slice(0, 5 - prevPhotos.length)]);
+        setPhotos((prevPhotos) => [
+            ...prevPhotos,
+            ...files.slice(0, 5 - prevPhotos.length),
+        ]);
     };
 
-    // Handle adding a tag
     const handleTagAdd = () => {
         const newTag = document.getElementById("tagInput").value.trim();
         if (newTag && !tags.includes(newTag)) {
@@ -67,9 +68,6 @@ function UploadPage({ selectedCategory, setShowUploadPage, user }) {
         }
     };
 
-
-
-    // Upload all selected photos
     const uploadAllFiles = async () => {
         if (photos.length === 0) {
             alert("No files to upload!");
@@ -91,7 +89,11 @@ function UploadPage({ selectedCategory, setShowUploadPage, user }) {
         }
     };
 
-    // Handle form submission
+    // Function to remove a specific photo by index
+    const handleRemovePhoto = (index) => {
+        setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    };
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
@@ -103,14 +105,12 @@ function UploadPage({ selectedCategory, setShowUploadPage, user }) {
         setUploading(true);
 
         try {
-            // Ensure photos are uploaded first
             const urls = await Promise.all(photos.map((file) => uploadToCloudinary(file)));
             setUploadedUrls(urls); // Update state with uploaded URLs
 
-            // Form data
             const data = {
                 userId: auth.currentUser.uid,
-                photos: urls, // Use the URLs directly from the upload result
+                photos: urls,
                 recipeName,
                 ingredients,
                 procedure,
@@ -120,15 +120,18 @@ function UploadPage({ selectedCategory, setShowUploadPage, user }) {
                 category: selectedCategory,
             };
 
-            // Generate a unique document ID
             const documentId = recipeName.toLowerCase().replace(/\s+/g, "_");
 
-            // Upload the data to Firestore
             await uploadSingleDocument("recipes", documentId, data);
 
-            // Hide the upload page and reset form state
-            setShowUploadPage(false);
-            alert("Recipe uploaded successfully!");
+            // Show the success message
+            setShowSuccessMessage(true);
+
+            // Hide the success message after 3 seconds and close the upload page
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+                setShowUploadPage(false);
+            }, 2000);
         } catch (error) {
             console.error("Error during form submission:", error);
             alert("Error uploading recipe. Please try again.");
@@ -139,90 +142,135 @@ function UploadPage({ selectedCategory, setShowUploadPage, user }) {
 
     return (
         <div className="upload-page">
-            <h2>Category: {selectedCategory}</h2>
-
-            <form onSubmit={handleFormSubmit} className="upload-form">
-                {/* Photo Upload Section */}
-                <div className="form-section">
-                    <label>Photo</label>
-                    <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handlePhotoUpload}
-                        disabled={photos.length >= 5}
-                    />
-                    <p>{photos.length < 5 ? 'or drag and drop up to 5 photos' : 'Photo limit reached'}</p>
+            {showSuccessMessage ? (
+                <div >
+                    <img id="success-message" src={Su} alt="Success" />
                 </div>
+            ) : (
+                <>
+                    <h2>Category: {selectedCategory}</h2>
 
-                {/* Recipe Name */}
-                <div className="form-section">
-                    <label>Recipe Name</label>
-                    <input
-                        type="text"
-                        placeholder="What do you call your recipe?"
-                        value={recipeName}
-                        onChange={(e) => setRecipeName(e.target.value)}
-                    />
-                </div>
+                    <form onSubmit={handleFormSubmit} className="upload-form">
+                        {/* Photo Upload Section */}
+                        <div className="form-section">
+                            <label>Photo</label>
+                            {/* Button to trigger the file input dialog */}
+                            <button
+                                type="button"
+                                onClick={() => document.getElementById("photoInput").click()}
+                                disabled={photos.length >= 5}
+                                className="upload-button"
+                            >
+                                {photos.length < 5 ? "Upload Photos" : "Photo Limit Reached"}
+                            </button>
 
-                {/* Ingredients */}
-                <div className="form-section">
-                    <label>Ingredients</label>
-                    <textarea
-                        placeholder="List your ingredients"
-                        value={ingredients}
-                        onChange={(e) => setIngredients(e.target.value)}
-                    />
-                </div>
+                            {/* Hidden file input */}
+                            <input
+                                id="photoInput"
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                onChange={handlePhotoUpload}
+                                style={{ display: "none" }} // Hide the file input
+                                disabled={photos.length >= 5}
+                            />
 
-                {/* Procedure */}
-                <div className="form-section">
-                    <label>Procedure</label>
-                    <textarea
-                        placeholder="How do you cook your recipe?"
-                        value={procedure}
-                        onChange={(e) => setProcedure(e.target.value)}
-                    />
-                </div>
+                            {/* Image Previews */}
+                            <div className="preview-container">
+                                {photos.map((photo, index) => (
+                                    <div key={index} className="preview-item">
+                                        <img
+                                            src={URL.createObjectURL(photo)} // Generate a temporary preview URL
+                                            alt={`Preview ${index + 1}`}
+                                            className="preview-image"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="remove-button"
+                                            onClick={() => handleRemovePhoto(index)}
+                                        >
+                                            X
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
 
-                {/* Calorie Count */}
-                <div className="form-section">
-                    <label>Calorie Count</label>
-                    <input
-                        type="number"
-                        placeholder="What's your calorie count?"
-                        value={calorieCount}
-                        onChange={(e) => setCalorieCount(e.target.value)}
-                    />
-                </div>
 
-                {/* Nutrition Values */}
-                <div className="form-section">
-                    <label>Nutrition Values</label>
-                    <textarea
-                        placeholder="List your nutrition values"
-                        value={nutritionValues}
-                        onChange={(e) => setNutritionValues(e.target.value)}
-                    />
-                </div>
+                        {/* Recipe Name */}
+                        <div className="form-section">
+                            <label>Recipe Name</label>
+                            <input
+                                type="text"
+                                placeholder="What do you call your recipe?"
+                                value={recipeName}
+                                onChange={(e) => setRecipeName(e.target.value)}
+                            />
+                        </div>
 
-                {/* Recipe Tags */}
-                <div className="form-section tags-section">
-                    <label>Recipe Tags</label>
-                    <input id="tagInput" type="text" placeholder="Add a tag" />
-                    <button type="button" onClick={handleTagAdd}>+</button>
-                    <div className="tags-container">
-                        {tags.map((tag, index) => (
-                            <span key={index} className="tag">{tag}</span>
-                        ))}
-                    </div>
-                </div>
+                        {/* Ingredients */}
+                        <div className="form-section">
+                            <label>Ingredients</label>
+                            <textarea
+                                placeholder="List your ingredients"
+                                value={ingredients}
+                                onChange={(e) => setIngredients(e.target.value)}
+                            />
+                        </div>
 
-                <button type="submit" className="submit-button" disabled={uploading}>
-                    {uploading ? "Uploading..." : "Post Recipe"}
-                </button>
-            </form>
+                        {/* Procedure */}
+                        <div className="form-section">
+                            <label>Procedure</label>
+                            <textarea
+                                placeholder="How do you cook your recipe?"
+                                value={procedure}
+                                onChange={(e) => setProcedure(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Calorie Count */}
+                        <div className="form-section">
+                            <label>Calorie Count</label>
+                            <input
+                                type="number"
+                                placeholder="What's your calorie count?"
+                                value={calorieCount}
+                                onChange={(e) => setCalorieCount(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Nutrition Values */}
+                        <div className="form-section">
+                            <label>Nutrition Values</label>
+                            <textarea
+                                placeholder="List your nutrition values"
+                                value={nutritionValues}
+                                onChange={(e) => setNutritionValues(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Recipe Tags */}
+                        <div className="form-section tags-section">
+                            <label>Recipe Tags</label>
+                            <input id="tagInput" type="text" placeholder="Add a tag" />
+                            <button type="button" onClick={handleTagAdd}>
+                                +
+                            </button>
+                            <div className="tags-container">
+                                {tags.map((tag, index) => (
+                                    <span key={index} className="tag">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <button type="submit" className="submit-button" disabled={uploading}>
+                            {uploading ? "Uploading..." : "Post Recipe"}
+                        </button>
+                    </form>
+                </>
+            )}
         </div>
     );
 }

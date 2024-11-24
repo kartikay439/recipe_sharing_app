@@ -5,6 +5,7 @@ import Home from './components/MainScreen.jsx';
 import Category from './components/category.jsx';
 import SignupDetail from './components/SignupDetail.jsx';
 import UploadPage from './components/UploadPage.jsx'; // Import UploadPage Component
+import Profile from './components/profilePage.jsx';
 
 // Define routes for your app
 const router = createBrowserRouter([
@@ -25,8 +26,12 @@ const router = createBrowserRouter([
     element: <UploadPage />,
   },
   {
-    path: '/Signupdetails', // Route for upload page with category parameter
+    path: '/Signupdetails', 
     element: <SignupDetail />,
+  },
+  {
+    path: '/profile',
+    element: <Profile />, 
   },
 ]);
 

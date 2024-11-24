@@ -1,0 +1,86 @@
+.profile-page {
+    margin: 20px;
+    width: 65vw;
+    background: #FFFFFF;
+}
+
+.profile-image {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    left: 2em;
+    top: 3em;
+}
+
+.profile-header {
+    position: relative;
+    bottom: 2.5em;
+    left: 10em;
+}
+
+.social-links{
+    position: relative;
+    bottom: 2.4em;
+    left: 9.3em;
+}
+
+.sl{
+    height: 30px;
+}
+
+.user-bio{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.social-links a {
+    margin: 0 10px;
+    font-size: 24px;
+    color: #333;
+    text-decoration: none;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.stats div {
+    text-align: center;
+    height: 100px;
+    width: 150px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.recipes-section {
+    margin-top: 40px;
+}
+
+.recipes-list {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.recipe-card {
+    width: 200px;
+    text-align: center;
+    padding: 2px;
+}
+
+.recipe-card img {
+    width: 10em;
+    height: 10em;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.recipe-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}

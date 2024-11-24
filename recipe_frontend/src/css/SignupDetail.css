@@ -22,6 +22,12 @@
     font-size: 18px;
     font-weight: bold;
 }
+#logo{
+    width: 50px;
+    position: relative;
+    top: .6em;
+    left: .5em;
+}
 
 #SignupDetail-content .form-container {
     width: 70%;
@@ -81,6 +87,26 @@ fieldset .radio-group{
     margin-bottom: 25px;
     background-color: #34495e;
     border-radius: 5px;
+}
+
+#ip{
+    width: 20%;
+    height: 20%;
+}
+.submit-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
 }
 
 .hidden{
