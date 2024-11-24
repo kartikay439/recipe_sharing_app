@@ -1,17 +1,17 @@
-import '../css/HomeScreenSearchBlock.css';
+import React from "react";
+import "../css/HomeScreenSearchBlock.css";
 
-function HomeSearch() {
-    return (
-        <div className='homes'>
-          <input 
-          
-          className='search'
-            type="text"
-            placeholder="Search for recipe 😋"
-            
-          />
-        </div>
-    );
-}
+const HomeSearchBlock = ({ setSearchTerm }) => {
+  return (
+    <div className="homes">
+      <input
+        className="search"
+        type="text"
+        placeholder="Search for recipe 😋"
+        onChange={(e) => setSearchTerm(e.target.value)} // Update search term in parent
+      />
+    </div>
+  );
+};
 
-export default HomeSearch;
+export default HomeSearchBlock;

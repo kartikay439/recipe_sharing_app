@@ -1,48 +1,50 @@
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import RecipeDetail from "./RecipeDetail";
 import React, { useEffect, useState, useCallback } from "react";
-import app from "../utils/firebase"; // Adjust the path to your Firebase initialization file
-import "../css/allReciipe.css";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import app from "../utils/firebase"; // Adjust to your Firebase initialization file
+import RecipeDetail from "./RecipeDetail";
 import likeIcon from "../assets/like.png";
+import "../css/allReciipe.css";
 import updateFieldByDocumentField from "../utils/updateLike";
 
 const db = getFirestore(app);
 
-export const fetchRecipes = async () => {
+// Fetch recipes from Firestore
+const fetchRecipes = async () => {
   try {
     const recipesCollection = collection(db, "recipes");
     const snapshot = await getDocs(recipesCollection);
 
     // Extract data from each document
-    const recipes = snapshot.docs.map((doc) => ({
+    return snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-
-    return recipes;
   } catch (error) {
     console.error("Error fetching recipes:", error);
     return [];
   }
 };
 
-const AllRecipe = ({ homeSearch, user }) => {
+const AllRecipe = ({ searchQuery, homeSearch, user }) => {
   const [recipes, setRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState({}); // Track the current image index for each recipe
 
+  // Like functionality
   const like = useCallback((userId) => {
-    console.log(userId);
+    console.log("Liking user:", userId);
     updateFieldByDocumentField("userId", userId, "like", "n");
   }, []);
 
+  // Fetch recipes and initialize current image indexes
   useEffect(() => {
     const loadRecipes = async () => {
       const data = await fetchRecipes();
       setRecipes(data);
+      setFilteredRecipes(data);
 
-      // Initialize the current image index for each recipe
+      // Initialize image indexes
       const initialIndexes = {};
       data.forEach((recipe) => {
         initialIndexes[recipe.id] = 0;
@@ -53,45 +55,71 @@ const AllRecipe = ({ homeSearch, user }) => {
     loadRecipes();
   }, []);
 
-  const handleNextImage = useCallback((recipeId, photos) => {
-    setCurrentImageIndex((prevState) => ({
-      ...prevState,
-      [recipeId]: (prevState[recipeId] + 1) % photos.length, // Cycle through photos
-    }));
-  }, []);
+  // Filter recipes based on search query
+  useEffect(() => {
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      const filtered = recipes.filter(
+        (recipe) =>
+          recipe.recipeName?.toLowerCase().includes(query) ||
+          recipe.tags?.some((tag) => tag.toLowerCase().includes(query))
+      );
+      setFilteredRecipes(filtered);
+    } else {
+      setFilteredRecipes(recipes);
+    }
+  }, [searchQuery, recipes]);
 
-  // Auto-slide functionality
+  // Auto-slide functionality for recipe images
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevState) => {
         const newState = { ...prevState };
         recipes.forEach((recipe) => {
           if (recipe.photos && recipe.photos.length > 1) {
-            newState[recipe.id] = (prevState[recipe.id] + 1) % recipe.photos.length;
+            newState[recipe.id] =
+              (prevState[recipe.id] + 1) % recipe.photos.length;
           }
         });
         return newState;
       });
-    }, 2000); // Auto-slide every 2 seconds
+    }, 2000);
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, [recipes]);
 
+  // Handle next image on modifier key press
+  const handleImageClick = useCallback(
+    (recipeId, event) => {
+      if (event.shiftKey) {
+        // Cycle through photos on Shift key press
+        setCurrentImageIndex((prevState) => ({
+          ...prevState,
+          [recipeId]: (prevState[recipeId] + 1) % recipes.find(recipe => recipe.id === recipeId).photos.length,
+        }));
+      } else {
+        // Redirect to recipe details otherwise
+        setSelectedRecipeId(recipeId);
+      }
+    },
+    [recipes]
+  );
+
+  // Render RecipeDetail if a recipe is selected
   if (selectedRecipeId) {
     return (
       <RecipeDetail
-        showDetail={setSelectedRecipeId}
         id={selectedRecipeId}
+        showDetail={setSelectedRecipeId}
+        homeSearch={homeSearch}
         user={user}
-        setHomeSearch={homeSearch}
-        setSelectedRecipeId={setSelectedRecipeId}
       />
     );
   }
 
   return (
     <div className="grid-container">
-      {recipes.map((recipe) => (
+      {filteredRecipes.map((recipe) => (
         <div key={recipe.id} className="card">
           {/* Like Button */}
           <img
@@ -99,18 +127,18 @@ const AllRecipe = ({ homeSearch, user }) => {
             src={likeIcon}
             alt="Like"
             onClick={(event) => {
-              event.stopPropagation(); // Prevent event bubbling
-              like(recipe.userId); // Call the like function
+              event.stopPropagation();
+              like(recipe.userId);
             }}
           />
-          {/* Slideshow */}
+          {/* Slideshow or Redirect */}
           <img
-            src={recipe.photos[currentImageIndex[recipe.id] || 0]} // Show current image
+            src={recipe.photos[currentImageIndex[recipe.id] || 0]}
             alt={recipe.recipeName}
             className="image"
             onClick={(event) => {
-              event.stopPropagation(); // Prevent event bubbling
-              handleNextImage(recipe.id, recipe.photos); // Change image on click
+              event.stopPropagation();
+              handleImageClick(recipe.id, event);
             }}
           />
           {/* Recipe Title */}
@@ -118,7 +146,6 @@ const AllRecipe = ({ homeSearch, user }) => {
             className="t"
             onClick={() => {
               setSelectedRecipeId(recipe.id);
-              setUserId(recipe.userId);
             }}
           >
             {recipe.recipeName}
@@ -126,6 +153,7 @@ const AllRecipe = ({ homeSearch, user }) => {
           <hr className="all-recipe-hr" />
         </div>
       ))}
+      {filteredRecipes.length === 0 && <p>No recipes to display</p>}
     </div>
   );
 };
