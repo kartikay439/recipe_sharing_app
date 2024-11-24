@@ -6,6 +6,7 @@ import insta from '../assets/social.png';
 import fb from '../assets/facebook.png';
 import pin from '../assets/logo.png';
 import RecipeDetail from './RecipeDetail'; // Import the RecipeDetail component
+import profile from "../assets/profile.png";
 
 function profilePage({ userId }) {
     const [userData, setUserData] = useState(null);
@@ -74,7 +75,7 @@ function profilePage({ userId }) {
     return (
         <div className="profile-page">
             <div className="userdetail">
-                <img src={userData.profileImage} alt={`${userData.firstname} ${userData.lastname}`} className="profile-image" />
+                <img src={userData.profileImage || profile} alt={`${userData.firstname} ${userData.lastname}`} className="profile-image" />
                 <div className="profile-header">
                     <h1>{userData.firstname} {userData.lastname}</h1>
                 </div>

@@ -25,11 +25,11 @@ const fetchRecipes = async () => {
   }
 };
 
-const AllRecipe = ({ searchQuery, homeSearch, user }) => {
+const AllRecipe = ({ searchQuery, homeSearch, user, setDetailVisible }) => {
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState({}); // Track the current image index for each recipe
+  const [currentImageIndex, setCurrentImageIndex] = useState({});
 
   // Like functionality
   const like = useCallback((userId) => {
@@ -44,7 +44,6 @@ const AllRecipe = ({ searchQuery, homeSearch, user }) => {
       setRecipes(data);
       setFilteredRecipes(data);
 
-      // Initialize image indexes
       const initialIndexes = {};
       data.forEach((recipe) => {
         initialIndexes[recipe.id] = 0;
@@ -88,29 +87,29 @@ const AllRecipe = ({ searchQuery, homeSearch, user }) => {
     return () => clearInterval(interval);
   }, [recipes]);
 
-  // Handle next image on modifier key press
   const handleImageClick = useCallback(
     (recipeId, event) => {
       if (event.shiftKey) {
-        // Cycle through photos on Shift key press
         setCurrentImageIndex((prevState) => ({
           ...prevState,
           [recipeId]: (prevState[recipeId] + 1) % recipes.find(recipe => recipe.id === recipeId).photos.length,
         }));
       } else {
-        // Redirect to recipe details otherwise
         setSelectedRecipeId(recipeId);
+        setDetailVisible(true);
       }
     },
-    [recipes]
+    [recipes, setDetailVisible]
   );
 
-  // Render RecipeDetail if a recipe is selected
   if (selectedRecipeId) {
     return (
       <RecipeDetail
         id={selectedRecipeId}
-        showDetail={setSelectedRecipeId}
+        showDetail={(id) => {
+          setSelectedRecipeId(id);
+          setDetailVisible(false);
+        }}
         homeSearch={homeSearch}
         user={user}
       />
@@ -121,7 +120,6 @@ const AllRecipe = ({ searchQuery, homeSearch, user }) => {
     <div className="grid-container">
       {filteredRecipes.map((recipe) => (
         <div key={recipe.id} className="card">
-          {/* Like Button */}
           <img
             className="like"
             src={likeIcon}
@@ -131,7 +129,6 @@ const AllRecipe = ({ searchQuery, homeSearch, user }) => {
               like(recipe.userId);
             }}
           />
-          {/* Slideshow or Redirect */}
           <img
             src={recipe.photos[currentImageIndex[recipe.id] || 0]}
             alt={recipe.recipeName}
@@ -141,11 +138,11 @@ const AllRecipe = ({ searchQuery, homeSearch, user }) => {
               handleImageClick(recipe.id, event);
             }}
           />
-          {/* Recipe Title */}
           <h3
             className="t"
             onClick={() => {
               setSelectedRecipeId(recipe.id);
+              setDetailVisible(true);
             }}
           >
             {recipe.recipeName}
