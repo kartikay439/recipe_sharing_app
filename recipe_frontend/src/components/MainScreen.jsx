@@ -50,7 +50,7 @@ function MainScreen() {
             {user ? (
               <>
                 {homeSearch ? <HomeSearch /> : <></>}
-                <DataSection homeSearch={setHomeSearch} />
+                <DataSection homeSearch={setHomeSearch} user={user.uid}/>
               </>
             ) : (
               <h1>You are not signed in</h1>

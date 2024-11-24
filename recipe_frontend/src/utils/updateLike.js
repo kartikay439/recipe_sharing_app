@@ -27,6 +27,7 @@ const updateFieldByDocumentField = async (field, value,fieldToUpdate, newValue) 
     const docRef = doc(db, "user", doc_.id);  // Get reference to the document using the docId
 
     try {
+      console.log(doc_.data().like+1)
       // Step 3: Update the specific field
       await updateDoc(docRef, {
         [fieldToUpdate]:doc_.data().like+1,  // Dynamically update the specific field
@@ -39,3 +40,6 @@ const updateFieldByDocumentField = async (field, value,fieldToUpdate, newValue) 
 };
 
 export default updateFieldByDocumentField;
+
+// Usage example: Updating the "rating" field of a recipe with a specific "recipeName"
+// updateFieldByDocumentField("recipeName", "Carrot Soup", "rating", 5);
