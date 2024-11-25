@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
-import "../css/profilePage.css"; 
-import { db } from '../utils/firebase';
-import insta from '../assets/social.png';
-import fb from '../assets/facebook.png';
-import pin from '../assets/logo.png';
-import RecipeDetail from './RecipeDetail'; // Import the RecipeDetail component
+import "../css/profilePage.css";
+import { db } from "../utils/firebase";
+import insta from "../assets/social.png";
+import fb from "../assets/facebook.png";
+import pin from "../assets/logo.png";
+import RecipeDetail from "./RecipeDetail"; // Import the RecipeDetail component
 import profile from "../assets/profile.png";
 
-function profilePage({ userId }) {
+function ProfilePage({ userId }) {
     const [userData, setUserData] = useState(null);
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedRecipeId, setSelectedRecipeId] = useState(null); // State for selected recipe
+    const [totalLikes, setTotalLikes] = useState(0); // State for total likes
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -37,6 +38,10 @@ function profilePage({ userId }) {
                     ...doc.data(),
                 }));
                 setRecipes(recipesData);
+
+                // Calculate total likes across all recipes
+                const totalLikes = recipesData.reduce((sum, recipe) => sum + (recipe.like || 0), 0);
+                setTotalLikes(totalLikes);
             } catch (error) {
                 console.error("Error fetching user recipes:", error);
             }
@@ -65,6 +70,7 @@ function profilePage({ userId }) {
         return (
             <RecipeDetail
                 id={selectedRecipeId}
+                user={userId} // Pass userId to RecipeDetail
                 showDetail={setSelectedRecipeId} // Function to clear the selected recipe
                 setHomeSearch={() => setSelectedRecipeId(null)} // Go back to the profile page
             />
@@ -96,8 +102,8 @@ function profilePage({ userId }) {
             </div>
             <div className="stats">
                 <div>
-                    <h2>{userData.like || 0}</h2>
-                    <p>Likes</p>
+                    <h2>{totalLikes}</h2>
+                    <p>Total Likes</p>
                 </div>
                 <div>
                     <h2>{userData.followers || 0}</h2>
@@ -128,4 +134,4 @@ function profilePage({ userId }) {
     );
 }
 
-export default profilePage;
+export default ProfilePage;
