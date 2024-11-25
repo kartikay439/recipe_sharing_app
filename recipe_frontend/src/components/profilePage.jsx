@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { doc, onSnapshot, collection, query, where, getDocs} from "firebase/firestore";
 import "../css/profilePage.css";
 import { db } from "../utils/firebase";
 import insta from "../assets/social.png";
@@ -16,45 +16,34 @@ function ProfilePage({ userId }) {
     const [totalLikes, setTotalLikes] = useState(0); // State for total likes
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const userDoc = await getDoc(doc(db, "user", userId));
-                if (userDoc.exists()) {
-                    setUserData(userDoc.data());
-                } else {
-                    console.error("User not found");
-                }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
+        const unsubscribeUser = onSnapshot(doc(db, "user", userId), (doc) => {
+            if (doc.exists()) {
+                setUserData(doc.data());
+            } else {
+                console.error("User not found");
+                setUserData(null);
             }
+        });
+
+        const q = query(collection(db, "recipes"), where("userId", "==", userId));
+        const unsubscribeRecipes = onSnapshot(q, (querySnapshot) => {
+            const recipesData = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setRecipes(recipesData);
+
+            // Calculate total likes across all recipes
+            const totalLikes = recipesData.reduce((sum, recipe) => sum + (recipe.like || 0), 0);
+            setTotalLikes(totalLikes);
+        });
+
+        setLoading(false);
+
+        return () => {
+            unsubscribeUser();
+            unsubscribeRecipes();
         };
-
-        const fetchUserRecipes = async () => {
-            try {
-                const q = query(collection(db, "recipes"), where("userId", "==", userId));
-                const querySnapshot = await getDocs(q);
-                const recipesData = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setRecipes(recipesData);
-
-                // Calculate total likes across all recipes
-                const totalLikes = recipesData.reduce((sum, recipe) => sum + (recipe.like || 0), 0);
-                setTotalLikes(totalLikes);
-            } catch (error) {
-                console.error("Error fetching user recipes:", error);
-            }
-        };
-
-        const fetchData = async () => {
-            setLoading(true);
-            await fetchUserData();
-            await fetchUserRecipes();
-            setLoading(false);
-        };
-
-        fetchData();
     }, [userId]);
 
     if (loading) {
