@@ -110,7 +110,7 @@ function ProfilePage({ userId }) {
                     <p>Followers</p>
                 </div>
                 <div>
-                    <h2>{userData.reviews || 0}</h2>
+                    <h2>{userData.reviewCount || 0}</h2>
                     <p>Reviews</p>
                 </div>
             </div>
