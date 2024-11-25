@@ -58,7 +58,23 @@ const RecipeDetail = ({
         text: reviewText,
         createdAt: new Date(),
       });
+      // Fetch the user's document
+      const docRef = doc(db, "recipes", id);
+      const docSnap = await getDoc(docRef);
+      const userRef = doc(db, "user", docSnap.data().userId); // Assuming 'user' is the userID
+      const userSnap = await getDoc(userRef);
 
+      if (userSnap.exists()) {
+        // Increment reviewCount
+        const userData = userSnap.data();
+        const currentReviewCount = userData.reviewCount || 0;
+
+        await updateDoc(userRef, {
+          reviewCount: currentReviewCount + 1,
+        });
+      } else {
+        console.error("User document not found for userID:", user);
+      }
       setReviewText("");
       fetchReviews(); // Refresh reviews after adding a new one
     } catch (error) {

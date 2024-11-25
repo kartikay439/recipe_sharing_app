@@ -56,10 +56,6 @@ function MainScreen() {
     setIsDetailVisible(false);
   };
 
-  const toggleHomeSearch = () => {
-    setHomeSearch(!homeSearch);
-  };
-
   return (
     <div className="main-screen home">
       <NavBar
@@ -70,14 +66,21 @@ function MainScreen() {
 
       <div className="content">
         {showCategory ? (
-          <Category clickHandle={categoryHandled} />
+          <Category 
+            clickHandle={categoryHandled}
+            setShowCategory={setShowCategory} 
+          />
         ) : showUploadPage ? (
           <UploadPage
             selectedCategory={selectedCategory}
             setShowUploadPage={setShowUploadPage}
+            setShowCategory={setShowCategory}
           />
         ) : showProfile ? (
-          <Profile userId={user?.uid} />
+          <Profile 
+            userId={user?.uid} 
+            onLogoClick={handleLogoClick}
+          />
         ) : (
           <>
             {user ? (

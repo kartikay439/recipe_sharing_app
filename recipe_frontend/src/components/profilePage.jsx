@@ -7,8 +7,9 @@ import fb from "../assets/facebook.png";
 import pin from "../assets/logo.png";
 import RecipeDetail from "./RecipeDetail"; // Import the RecipeDetail component
 import profile from "../assets/profile.png";
+import backArrow from "../assets/backspace.png";
 
-function ProfilePage({ userId }) {
+function ProfilePage({ userId, onLogoClick }) {
     const [userData, setUserData] = useState(null);
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -69,6 +70,12 @@ function ProfilePage({ userId }) {
     // Main profile page content
     return (
         <div className="profile-page">
+            <button
+                className="back-button"
+                onClick={onLogoClick}
+            >
+                <img src={backArrow} alt="Back" className="back-arrow-icon" />
+            </button>
             <div className="userdetail">
                 <img src={userData.profileImage || profile} alt={`${userData.firstname} ${userData.lastname}`} className="profile-image" />
                 <div className="profile-header">

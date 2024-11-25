@@ -4,6 +4,7 @@ import {doc, setDoc } from "firebase/firestore";
 import cloudinaryConfig from "../utils/cloudinaryConfig";
 import { auth, db } from "../utils/firebase";
 import Su from "../assets/image.png";
+import backArrow from "../assets/backspace.png";
 
 // Function to upload a single document to Firestore
 export const uploadSingleDocument = async (collectionName, documentId, data) => {
@@ -40,7 +41,7 @@ async function uploadToCloudinary(file) {
     }
 }
 
-function UploadPage({ selectedCategory, setShowUploadPage, user }) {
+function UploadPage({ selectedCategory, setShowUploadPage, setShowCategory }) {
     const [photos, setPhotos] = useState([]); // Array of files to upload
     const [recipeName, setRecipeName] = useState("");
     const [ingredients, setIngredients] = useState("");
@@ -151,6 +152,15 @@ function UploadPage({ selectedCategory, setShowUploadPage, user }) {
                     <h2>Category: {selectedCategory}</h2>
 
                     <form onSubmit={handleFormSubmit} className="upload-form">
+                        <button
+                            className="back-button"
+                            onClick={() => {
+                                setShowUploadPage(false);
+                                setShowCategory(true);
+                            }}
+                        >
+                            <img src={backArrow} alt="Back" className="back-arrow-icon" />
+                        </button>
                         {/* Photo Upload Section */}
                         <div className="form-section">
                             <label>Photo</label>
