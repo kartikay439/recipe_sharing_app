@@ -1,31 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { 
-  getFirestore, 
-  collection, 
-  addDoc, 
-  getDocs, 
-  getDoc, 
-  query, 
-  where, 
-  doc, 
-  updateDoc 
-} from "firebase/firestore";
-import app from "../utils/firebase"; // Firebase initialization
+import { collection, addDoc, getDocs, getDoc, query, where, doc, updateDoc } from "firebase/firestore";
 import "../css/recipeDetail.css"; // Import the CSS file
 import backArrow from "../assets/backspace.png";
 import likeIcon from "../assets/like.png";
+import {db} from'../utils/firebase';
 
-const db = getFirestore(app);
 const reviewsCollection = collection(db, "reviews");
-const likesCollection = collection(db, "likes");
 
 const RecipeDetail = ({ user, id, showDetail, setHomeSearch, setSelectedRecipeId }) => {
   const [recipe, setRecipe] = useState(null);
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [likeCount, setLikeCount] = useState(0);
-  const [hasLiked, setHasLiked] = useState(false);
+  const [like, setLike] = useState(0); // Track like count
 
   const fetchReviews = async () => {
     try {
@@ -57,76 +44,49 @@ const RecipeDetail = ({ user, id, showDetail, setHomeSearch, setSelectedRecipeId
     }
   };
 
-  const handleLike = async () => {
-    if (hasLiked) {
-      console.log("User has already liked this recipe.");
-      return;
-    }
-
-    try {
-      // Add like record to the `likes` collection
-      await addDoc(likesCollection, {
-        userId: user,
-        recipeId: id,
-        likedAt: new Date(),
-      });
-
-      // Increment the like count on the `recipes` document
-      const recipeRef = doc(db, "recipes", id);
-      const newLikeCount = likeCount + 1;
-      await updateDoc(recipeRef, { like: newLikeCount });
-
-      setLikeCount(newLikeCount); // Update local state
-      setHasLiked(true); // Mark as liked
-    } catch (error) {
-      console.error("Error liking the recipe: ", error);
-    }
-  };
-
-  const checkIfUserLiked = async () => {
-    try {
-      const q = query(likesCollection, where("userId", "==", user), where("recipeId", "==", id));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        setHasLiked(true);
-      }
-    } catch (error) {
-      console.error("Error checking if user liked the recipe: ", error);
-    }
-  };
-
   useEffect(() => {
     fetchReviews();
   }, [id]);
 
-  useEffect(() => {
-    const fetchRecipe = async () => {
-      try {
+  const fetchRecipe = async () => {
+    try {
         const docRef = doc(db, "recipes", id);
         const docSnap = await getDoc(docRef);
-
+        
         if (docSnap.exists()) {
           const recipeData = docSnap.data();
           setRecipe(recipeData);
-          setLikeCount(recipeData.like || 0); // Set initial like count
+          setLike(recipeData.like || 0);
         } else {
           console.error("No such document!");
         }
-      } catch (error) {
+      } 
+      catch (error) {
         console.error("Error fetching recipe: ", error);
       }
     };
-
+  
+  const handleLike = async () => {
+    try {
+      const recipeRef = doc(db, "recipes", id);
+      const newLikes = like + 1;
+      
+      await updateDoc(recipeRef, { like: newLikes });
+      setLike(newLikes); // Update local state
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    }
+  };
+  
+  useEffect(() => {
     fetchRecipe();
-    checkIfUserLiked(); // Check if the user has already liked the recipe
   }, [id]);
 
   useEffect(() => {
     if (recipe?.photos && recipe.photos.length > 1) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % recipe.photos.length);
-      }, 6000); // Change the image every 3 seconds
+      }, 3000); // Change the image every 3 seconds
       return () => clearInterval(interval);
     }
   }, [recipe]);
@@ -156,15 +116,15 @@ const RecipeDetail = ({ user, id, showDetail, setHomeSearch, setSelectedRecipeId
           <p className="section calories">
             <strong>Calories:</strong> {recipe.calorieCount}
           </p>
-          {/* Like Section */}
+          {/* Like Button */}
           <div className="actions">
             <img
-              src={likeIcon}
-              alt="Like"
-              className={`like-icon ${hasLiked ? "liked" : ""}`}
-              onClick={handleLike}
+                src={likeIcon}
+                alt="Like"
+                className="like-icon"
+                onClick={handleLike}
             />
-            <span className="like-count">{likeCount} likes</span>
+            <span className="like-count">{like} likes</span>
           </div>
         </div>
         <div className="image-section">
