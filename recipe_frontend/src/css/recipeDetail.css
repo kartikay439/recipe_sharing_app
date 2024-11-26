@@ -3,8 +3,8 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f6f3; /* A warm, off-white background for elegance */
-  color: #2C2C2C; /* Dark muted text for readability */
+  background-color: #f9f6f3; 
+  color: #2C2C2C; 
   line-height: 1.6;
   box-sizing: border-box;
 }
@@ -14,8 +14,8 @@ body {
   margin: 2vh 2vw;
   padding: 20px;
   border-radius: 12px;
-  background: #ffffff; /* Clean white for the card */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07); /* Slightly more prominent shadow */
+  background: #ffffff; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07); 
   overflow: hidden;
 }
 
@@ -26,7 +26,7 @@ body {
   justify-content: center;
   width: 50px;
   height: 50px;
-  background-color: red; /* Bold orange for attention */
+  background-color: red; 
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -35,15 +35,15 @@ body {
 }
 
 .back-button:hover {
-  background-color: #e45151; /* Softer gold on hover */
+  background-color: #e45151;
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add depth on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .back-arrow-icon {
   width: 24px;
   height: 24px;
-  filter: invert(1); /* High contrast for better visibility */
+  filter: invert(1); 
 }
 
 /* Content Layout */
@@ -61,13 +61,13 @@ body {
 
 .text-section .heading {
   font-size: 2.5rem;
-  color: #34495e; /* Deep muted blue-gray for modern sophistication */
+  color: #34495e; 
   margin-bottom: 10px;
 }
 
 .text-section .calories {
   font-size: 1.1rem;
-  color: #7f8c8d; /* Subtle gray for secondary text */
+  color: #7f8c8d;
   margin-bottom: 20px;
 }
 
@@ -82,13 +82,12 @@ body {
   max-width: 100%;
   border-radius: 10px;
   object-fit: cover;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Slightly bolder shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
-  /* margin-left: 5vw; */
 }
 
 .image:hover {
-  transform: scale(1.05); /* Emphasized hover effect for imagery */
+  transform: scale(1.05); 
 }
 
 /* Recipe Sections */
@@ -103,7 +102,7 @@ body {
 .procedure {
   flex: 1 1 auto;
   padding: 20px;
-  background: #fceeee; /*Soft beige with warmth*/
+  background: #fceeee; 
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
@@ -112,13 +111,13 @@ body {
 .procedure h2 {
   font-size: 1.5rem;
   margin-bottom: 10px;
-  color: white; /* Neutral dark for headings */
-  text-align: left; /* Align headings to the left */
+  color: white; 
+  text-align: left; 
   padding: 5px 2px; 
   padding-left: 5px;
-  border: 2px solid red; /* Adds border with a warm color */
-  border-radius: 6px; /* Rounds the corners of the box */
-  background-color: red; /* Adds a soft background color inside the box */
+  border: 2px solid red; 
+  border-radius: 6px; 
+  background-color: red; 
   display: inline-block;
 }
 
@@ -127,13 +126,13 @@ body {
 }
 
 .index {
-  color: red; /* Warm accent orange */
+  color: red;
   font-weight: bold;
   margin-right: 10px;
 }
 
 .details {
-  color: #4C4C4C; /* Muted, modern dark gray */
+  color: #4C4C4C; 
   margin-left: 20px;
   font-size: 0.95rem;
 }
@@ -156,7 +155,7 @@ body {
 }
 
 .tag-box {
-  background-color: red; /* Light gold for tags */
+  background-color: red; 
   color: #ffffff;
   padding: 8px 14px;
   border-radius: 25px;
@@ -166,12 +165,12 @@ body {
 }
 
 .tag-box:hover {
-  background-color: #c61414; /* Stronger orange on hover */
+  background-color: #c61414; 
 }
 
 /* Reviews Section */
 .reviews-section {
-  border-top: 1px solid #ddd; /* Neutral divider */
+  border-top: 1px solid #ddd; 
   padding-top: 20px;
   margin-top: 20px;
 }
@@ -227,7 +226,7 @@ body {
 .addReview-top {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers the button horizontally */
+  align-items: center; 
 }
 
 .addReview-top button {
@@ -239,7 +238,7 @@ body {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  margin-top: 15px; /* Adjust the top margin as needed */
+  margin-top: 15px; 
 }
 
 .addReview-top button:hover {
