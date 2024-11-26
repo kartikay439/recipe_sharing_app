@@ -96,7 +96,7 @@ const SignupDetail = () => {
             </nav>
             <div className="form-container">
                 <form onSubmit={handleSubmit}>
-                    <h2>Signup Details</h2>
+                    <h2 style={{color:"red"}}>Signup Details</h2>
 
                     {/* Image Upload Section */}
                     <div className="image-upload">

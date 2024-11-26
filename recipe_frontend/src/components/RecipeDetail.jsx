@@ -13,6 +13,7 @@ import {
 import "../css/recipeDetail.css"; // Import the CSS file
 import backArrow from "../assets/backspace.png";
 import likeIcon from "../assets/like.png";
+import follower from "../assets/followers.png";
 import { db } from "../utils/firebase";
 
 const reviewsCollection = collection(db, "reviews");
@@ -228,12 +229,19 @@ const RecipeDetail = ({
               onClick={handleLike}
             />
             <span className="like-count">{like} likes</span>
+
+            <img
+              src={follower}
+              alt="Like"
+              className="followers"
+            />
+            <span className="like-count">{followersCount} followers</span>
+
           </div>
           <div className="follow-section">
             <button onClick={handleFollow} className="follow-button">
               {isFollowing ? "Unfollow" : "Follow"}
             </button>
-            <p className="follower-l">{followersCount} followers</p>
           </div>
         </div>
         <div className="image-section">

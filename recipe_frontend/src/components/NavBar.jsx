@@ -59,7 +59,7 @@ function NavBar({ onPlusClick , onUserClick , onLogoClick }) {
     return (
         <div className="nav">
             <div className="logo">
-                <img src={cb} alt="logo" onClick={onLogoClick} />
+                <img src={cb} alt="logo" onClick={onLogoClick} style={{cursor:"pointer"}} />
             </div>
             <div className="menu">
                 {user ? (
@@ -114,7 +114,7 @@ function NavBar({ onPlusClick , onUserClick , onLogoClick }) {
                     src={plus}
                     alt="Add"
                     onClick={onPlusClick}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer" ,filter: "sepia(1) hue-rotate(-50deg) saturate(10)" }}
                 />
             </div>
         </div>

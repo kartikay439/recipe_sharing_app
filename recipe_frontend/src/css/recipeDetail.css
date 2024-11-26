@@ -1,59 +1,78 @@
-/* General styles */
+/* General Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #f9f6f3; /* A warm, off-white background for elegance */
+  color: #2C2C2C; /* Dark muted text for readability */
+  line-height: 1.6;
+  box-sizing: border-box;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 80px auto;
+  max-width: 1100px;
+  margin: 2vh 2vw;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background: #ffffff; /* Clean white for the card */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07); /* Slightly more prominent shadow */
+  overflow: hidden;
 }
 
-/* Back button */
+/* Back Button */
 .back-button {
-  width: 40px;
-  height: 40px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: goldenrod;
+  width: 50px;
+  height: 50px;
+  background-color: red; /* Bold orange for attention */
   border: none;
-  color: #333;
-  font-weight: bold;
+  border-radius: 50%;
   cursor: pointer;
-}
-
-.back-arrow-icon {
-  width: 20px;
-  height: 20px;
-  align-self: center;
-  justify-content: center;
-}
-
-/* Content layout */
-.content-wrapper {
-  display: flex;
-  justify-content: space-between;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   margin-bottom: 20px;
 }
 
+.back-button:hover {
+  background-color: #e45151; /* Softer gold on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add depth on hover */
+}
+
+.back-arrow-icon {
+  width: 24px;
+  height: 24px;
+  filter: invert(1); /* High contrast for better visibility */
+}
+
+/* Content Layout */
+.content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+}
+
 .text-section {
-  flex: 1;
-  padding-right: 20px;
-  text-align: left;
-  padding-top: 50px;
+  flex: 1 1 45%;
+  margin-left: 3vw;
+}
+
+.text-section .heading {
+  font-size: 2.5rem;
+  color: #34495e; /* Deep muted blue-gray for modern sophistication */
+  margin-bottom: 10px;
+}
+
+.text-section .calories {
+  font-size: 1.1rem;
+  color: #7f8c8d; /* Subtle gray for secondary text */
+  margin-bottom: 20px;
 }
 
 .image-section {
-  flex: 1;
+  flex: 1 1 45%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,185 +80,197 @@ body {
 
 .image {
   max-width: 100%;
-  max-height: 500px; /* Adjust the height as needed */
-  height: auto;
-  width: auto;
-  border-radius: 8px;
-  object-fit: cover; /* Ensures the image scales nicely */
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Slightly bolder shadow */
+  transition: transform 0.3s ease;
+  /* margin-left: 5vw; */
 }
 
+.image:hover {
+  transform: scale(1.05); /* Emphasized hover effect for imagery */
+}
 
-/* Recipe sections */
+/* Recipe Sections */
 .recipe-sections {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 20px;
-  margin-bottom: 20px;
+  margin: 2vh auto;
 }
 
 .ingredients,
 .procedure {
-  flex: 1 1 20%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #f9f9f9;
+  flex: 1 1 auto;
+  padding: 20px;
+  background: #fceeee; /*Soft beige with warmth*/
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .ingredients h2,
 .procedure h2 {
-  font-size: 20px;
+  font-size: 1.5rem;
   margin-bottom: 10px;
+  color: white; /* Neutral dark for headings */
+  text-align: left; /* Align headings to the left */
+  padding: 5px 2px; 
+  padding-left: 5px;
+  border: 2px solid red; /* Adds border with a warm color */
+  border-radius: 6px; /* Rounds the corners of the box */
+  background-color: red; /* Adds a soft background color inside the box */
+  display: inline-block;
 }
 
-/* Tags Section */
-.tags-section {
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.tags-section h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tag-box {
-  background-color: goldenrod;
-  color: #333;
-  padding: 5px 10px;
-  border-radius: 15px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-/* Reviews Section */
-.reviews-section {
-  border-top: 1px solid #ddd;
-  padding-top: 15px;
-  text-align: left;
-}
-
-.reviews-section h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.reviews-section p {
-  margin-bottom: 5px;
-  font-size: 16px;
-}
-
-/* Goldenrod index styling */
 .gold-index {
   margin: 10px 0;
 }
 
 .index {
-  color: goldenrod;
+  color: red; /* Warm accent orange */
   font-weight: bold;
-  margin-right: 8px;
+  margin-right: 10px;
 }
 
 .details {
+  color: #4C4C4C; /* Muted, modern dark gray */
   margin-left: 20px;
-  color: #333;
-  line-height: 1.6;
+  font-size: 0.95rem;
 }
 
+/* Tags Section */
+.tags-section {
+  margin-bottom: 20px;
+}
 
-.addReview {
+.tags-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  color: #2C2C2C;
+}
 
-  position: relative;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
+.tags-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* max-width: 600px; */
-  margin: 5vh auto;
-  /* box-shadow: 20px 20px 6px rgba(0, 0, 0, 0.767); */
-  background: #f9f9f9
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.addReview-top {
-  margin-bottom: 16px;
+.tag-box {
+  background-color: red; /* Light gold for tags */
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.tag-box:hover {
+  background-color: #c61414; /* Stronger orange on hover */
+}
+
+/* Reviews Section */
+.reviews-section {
+  border-top: 1px solid #ddd; /* Neutral divider */
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.reviews-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #34495e;
+}
+
+.review {
+  margin-bottom: 15px;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.review p {
+  margin: 0;
+  color: #34495e;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Add Review Section */
+.addReview {
+  border-radius: 12px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
 }
 
 .addReview-top h2 {
   font-size: 1.5rem;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
+  color: #2C2C2C;
 }
 
 .addReview-top textarea {
   width: 100%;
-  height: 100px;
-  padding: 8px;
-  margin-bottom: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  height: 120px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #2C2C2C;
+  resize: vertical;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.addReview-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the button horizontally */
 }
 
 .addReview-top button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 16px;
-  /* border: 5px red solid; */
-  margin:  auto 0 ;
-  border-radius: 4px;
-  /* cursor: pointer; */
+  background-color: red;
+  color: #ffffff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 15px; /* Adjust the top margin as needed */
 }
 
 .addReview-top button:hover {
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.767);
-
-  background-color: #45a049;
+  background-color: #e45151;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.addReview-bottom h3 {
-  font-size: 1.25rem;
-  margin-bottom: 8px;
-}
-.allR{
-  border: #00000065 solid 1px;
 
-  border-radius: 10px;
-
-}
-.review {
-  margin: 2%;
-  border-radius: 5px;
-  background-color: #0000000e;
-  padding: 8px 0;
-}
-
-.review p {
-  text-transform: uppercase;
-  letter-spacing: .1vw;
-  font-weight: 800;
-  font-size: medium;
-  padding: 1vw;
-  height: 10vh;
-  margin: 0;
-}
+/* Like Button */
 .actions {
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .like-icon {
   width: 30px;
   height: 30px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
+}
+.followers {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.2s ease;
+  filter:   invert(30%) sepia(1) saturate(10) hue-rotate(-45deg) brightness(100%) contrast(100%);
+  
+}
+.followers:hover{
+  transform:scale(1.1) ;
 }
 
 .like-icon:hover {
@@ -247,63 +278,7 @@ body {
 }
 
 .like-count {
-  font-size: 14px;
-  font-weight: bold;
-  color: #555;
-}
-
-
-.follow {
-  text-transform: capitalize;
-  font-weight: 800;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 1em;
-  margin-top: 1.5em;
-  width: 10em;
-  height: 3em;
-  background-color: goldenrod;
-  color: white; /* Text color */
-  cursor: pointer; /* Pointer cursor for interaction */
-  transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
-}
-
-.follow:hover {
-  background-color: darkgoldenrod; /* Darken the button on hover */
-}
-
-.follow:active {
-  background-color: goldenrod; /* Keep the goldenrod color when button is pressed */
-}
-
-.follow-button {
-  text-transform: capitalize;
-  font-weight: 800;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 1em;
-  margin-top: 1.5em;
-  width: 10em;
-  height: 3em;
-  background-color: goldenrod;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.follow-button:hover {
-  background-color: darkgoldenrod;
-}
-
-.follow-button:active {
-  background-color: goldenrod;
-}
-.follower-l{
-  font-weight: 800;
-  text-transform: uppercase;
-  text-align:center ;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4C4C4C;
 }

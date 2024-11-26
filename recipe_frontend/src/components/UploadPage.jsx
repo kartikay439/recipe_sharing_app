@@ -262,10 +262,12 @@ function UploadPage({ selectedCategory, setShowUploadPage, setShowCategory }) {
                         {/* Recipe Tags */}
                         <div className="form-section tags-section">
                             <label>Recipe Tags</label>
-                            <input id="tagInput" type="text" placeholder="Add a tag" />
-                            <button type="button" onClick={handleTagAdd}>
-                                +
-                            </button>
+                            <div className="tags-add">
+                                <input id="tagInput" type="text" placeholder="Add a tag" />
+                                <button type="button" onClick={handleTagAdd}>
+                                    +
+                                </button>
+                            </div>
                             <div className="tags-container">
                                 {tags.map((tag, index) => (
                                     <span key={index} className="tag">

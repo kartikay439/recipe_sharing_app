@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { doc, onSnapshot, collection, query, where, getDocs} from "firebase/firestore";
+import { doc, onSnapshot, collection, query, where } from "firebase/firestore";
 import "../css/profilePage.css";
 import { db } from "../utils/firebase";
 import insta from "../assets/social.png";
@@ -15,6 +15,7 @@ function ProfilePage({ userId, onLogoClick }) {
     const [loading, setLoading] = useState(true);
     const [selectedRecipeId, setSelectedRecipeId] = useState(null); // State for selected recipe
     const [totalLikes, setTotalLikes] = useState(0); // State for total likes
+    const [followersCount, setFollowersCount] = useState(0); // State for followers count
 
     useEffect(() => {
         const unsubscribeUser = onSnapshot(doc(db, "user", userId), (doc) => {
@@ -39,11 +40,20 @@ function ProfilePage({ userId, onLogoClick }) {
             setTotalLikes(totalLikes);
         });
 
+        // Real-time listener for followers count
+        const unsubscribeFollowers = onSnapshot(
+            query(collection(db, "followers"), where("userId", "==", userId)),
+            (querySnapshot) => {
+                setFollowersCount(querySnapshot.size); // Real-time update of followers count
+            }
+        );
+
         setLoading(false);
 
         return () => {
             unsubscribeUser();
             unsubscribeRecipes();
+            unsubscribeFollowers(); // Cleanup listener
         };
     }, [userId]);
 
@@ -102,7 +112,7 @@ function ProfilePage({ userId, onLogoClick }) {
                     <p>Total Likes</p>
                 </div>
                 <div>
-                    <h2>{userData.followers || 0}</h2>
+                    <h2>{followersCount}</h2>
                     <p>Followers</p>
                 </div>
                 <div>
