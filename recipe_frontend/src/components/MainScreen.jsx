@@ -32,6 +32,7 @@ function MainScreen() {
     setShowUploadPage(false);
     setShowProfile(false);
     setHomeSearch(true);
+    setSearchTerm(false);
   };
 
   const categoryHandled = (category) => {
@@ -39,6 +40,7 @@ function MainScreen() {
     setShowCategory(false);
     setShowProfile(false);
     setShowUploadPage(true);
+    setSearchTerm(false);
   };
 
   const handleUserClick = () => {
@@ -46,6 +48,7 @@ function MainScreen() {
     setHomeSearch(false);
     setShowCategory(false);
     setShowUploadPage(false);
+    setSearchTerm(false);
   };
 
   const handleLogoClick = () => {
@@ -54,6 +57,7 @@ function MainScreen() {
     setShowCategory(false);
     setShowUploadPage(false);
     setIsDetailVisible(false);
+    setSearchTerm(false);
   };
 
   return (
@@ -93,6 +97,7 @@ function MainScreen() {
                   homeSearch={setHomeSearch}
                   user={user.uid}
                   setDetailVisible={setIsDetailVisible}
+                  setSearchTerm={setSearchTerm}
                 />
                 {!homeSearch && !isDetailVisible && (
                   <DataSection homeSearch={setHomeSearch} user={user.uid} />

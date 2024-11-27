@@ -25,7 +25,7 @@ const fetchRecipes = async () => {
   }
 };
 
-const AllRecipe = ({ searchQuery, homeSearch, user, setDetailVisible }) => {
+const AllRecipe = ({ searchQuery, homeSearch, user, setDetailVisible, setSearchTerm }) => {
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [selectedRecipeId, setSelectedRecipeId] = useState(null);
@@ -97,6 +97,7 @@ const AllRecipe = ({ searchQuery, homeSearch, user, setDetailVisible }) => {
       } else {
         setSelectedRecipeId(recipeId);
         setDetailVisible(true);
+        setSearchTerm(null);
       }
     },
     [recipes, setDetailVisible]
