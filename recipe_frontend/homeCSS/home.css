@@ -1,0 +1,111 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main Container */
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+  /* background-image: url(./assets/coff.jpg); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Navigation Bar */
+.nav {
+  height: 60px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.logo img {
+  width: 50px;
+  position: relative;
+  top: .7em;
+}
+
+.menu {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu img {
+  width: 40px;
+  height: 40px;
+}
+.menu {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  width: 250px;
+  z-index: 10;
+  text-align: center;
+}
+
+.dropdown-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu ul li:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-menu ul li button {
+  all: unset;
+  text-align: left;
+  background: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu ul li button:hover {
+  background-color: #f1f1f1;
+}
+
+
+/* Content Area */
+.content {
+  flex: 1; /* Takes up available space between nav and footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Footer (About Component) */
+.about-us-container {
+  margin-top: auto; /* Push footer to bottom */
+  background-color: rgb(13, 30, 50); /* Matches your design */
+  color: #bbc0c7;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Category Container */
+.category-container {
+  width: 100%;
+}

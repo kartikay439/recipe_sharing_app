@@ -9,7 +9,7 @@ import UploadPage from "./UploadPage.jsx";
 import Profile from "./profilePage.jsx";
 import { auth } from "../utils/firebase.js";
 import { onAuthStateChanged } from "firebase/auth";
-import "../home.css";
+import "../../homeCSS/home.css";
 
 function MainScreen() {
   const [user, setUser] = useState(null);
